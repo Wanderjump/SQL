@@ -133,3 +133,88 @@ WHERE column1 NOT IN (value1, value2, value3);
 Эти операции позволяют эффективно работать с множествами данных и выполнять сложные запросы в SQL.
 
 
+## 4. Операторы объединения (JOIN, LEFT/RIGHT, INNER/OUTER JOIN)
+
+Операторы объединения (JOIN) в SQL позволяют комбинировать строки из двух или более таблиц на основе связанных между ними столбцов. Вот основные типы объединений:
+
+### 1. **INNER JOIN**
+Возвращает строки, которые имеют совпадающие значения в обеих таблицах.
+
+```sql
+SELECT *
+FROM table1
+INNER JOIN table2 ON table1.common_column = table2.common_column;
+```
+
+### 2. **LEFT JOIN (или LEFT OUTER JOIN)**
+Возвращает все строки из левой таблицы и совпадающие строки из правой таблицы. Если совпадений нет, возвращаются NULL для столбцов правой таблицы.
+
+```sql
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.common_column = table2.common_column;
+```
+
+### 3. **RIGHT JOIN (или RIGHT OUTER JOIN)**
+Возвращает все строки из правой таблицы и совпадающие строки из левой таблицы. Если совпадений нет, возвращаются NULL для столбцов левой таблицы.
+
+```sql
+SELECT *
+FROM table1
+RIGHT JOIN table2 ON table1.common_column = table2.common_column;
+```
+
+### 4. **FULL JOIN (или FULL OUTER JOIN)**
+Возвращает строки, когда есть совпадения в одной из таблиц. Если совпадений нет, возвращаются NULL для столбцов из отсутствующей таблицы.
+
+```sql
+SELECT *
+FROM table1
+FULL JOIN table2 ON table1.common_column = table2.common_column;
+```
+
+### 5. **CROSS JOIN**
+Возвращает декартово произведение двух таблиц, то есть все возможные комбинации строк.
+
+```sql
+SELECT *
+FROM table1
+CROSS JOIN table2;
+```
+
+### Примеры использования:
+Предположим, у нас есть две таблицы: `employees` и `departments`.
+
+- **INNER JOIN**: Получить сотрудников и их департаменты.
+  
+```sql
+SELECT employees.name, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.id;
+```
+
+- **LEFT JOIN**: Получить всех сотрудников и их департаменты, включая тех, кто не принадлежит ни к одному департаменту.
+
+```sql
+SELECT employees.name, departments.department_name
+FROM employees
+LEFT JOIN departments ON employees.department_id = departments.id;
+```
+
+- **RIGHT JOIN**: Получить все департаменты и сотрудников, включая департаменты без сотрудников.
+
+```sql
+SELECT employees.name, departments.department_name
+FROM employees
+RIGHT JOIN departments ON employees.department_id = departments.id;
+```
+
+- **FULL JOIN**: Получить всех сотрудников и все департаменты, включая тех, у кого нет соответствий.
+
+```sql
+SELECT employees.name, departments.department_name
+FROM employees
+FULL JOIN departments ON employees.department_id = departments.id;
+```
+
+Эти операторы объединения позволяют гибко работать с данными из нескольких таблиц в SQL.
