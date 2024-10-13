@@ -218,3 +218,139 @@ FULL JOIN departments ON employees.department_id = departments.id;
 ```
 
 Эти операторы объединения позволяют гибко работать с данными из нескольких таблиц в SQL.
+
+## 5. Работа с фильтрами, базовые условные операторы, операторы EXISTS, IN, ANY, ALL, LIKE, RLIKE
+
+Вот обзор работы с фильтрами и базовыми условными операторами в SQL, включая использование операторов `EXISTS`, `IN`, `ANY`, `ALL`, `LIKE` и `RLIKE`.
+
+### 1. **Фильтры с помощью WHERE**
+Оператор `WHERE` используется для фильтрации строк на основе заданных условий.
+
+```sql
+SELECT *
+FROM table_name
+WHERE condition;
+```
+
+### 2. **Базовые условные операторы**
+- **=**: Равно
+- **!=** или **<>**: Не равно
+- **>**: Больше
+- **<**: Меньше
+- **>=**: Больше или равно
+- **<=**: Меньше или равно
+
+### Пример:
+```sql
+SELECT *
+FROM employees
+WHERE salary > 50000;
+```
+
+### 3. **Оператор EXISTS**
+Проверяет существование строк в подзапросе. Возвращает TRUE, если подзапрос возвращает хотя бы одну строку.
+
+```sql
+SELECT *
+FROM departments d
+WHERE EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.id);
+```
+
+### 4. **Оператор IN**
+Проверяет, содержится ли значение в указанном списке значений или в результате подзапроса.
+
+```sql
+SELECT *
+FROM employees
+WHERE department_id IN (1, 2, 3);
+```
+
+### 5. **Оператор ANY**
+Сравнивает значение с любым значением в подзапросе. Если хотя бы одно из условий истинно, возвращает TRUE.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > ANY (SELECT salary FROM employees WHERE department_id = 1);
+```
+
+### 6. **Оператор ALL**
+Сравнивает значение со всеми значениями в подзапросе. Возвращает TRUE, если условие истинно для всех значений.
+
+```sql
+SELECT *
+FROM employees
+WHERE salary > ALL (SELECT salary FROM employees WHERE department_id = 1);
+```
+
+### 7. **Оператор LIKE**
+Используется для поиска по шаблону. Символы подстановки:
+- `%`: любое количество символов
+- `_`: один любой символ
+
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE 'A%';  -- Имена, начинающиеся с 'A'
+```
+
+### 8. **Оператор RLIKE (или REGEXP)**
+Используется для поиска по регулярным выражениям. Поддерживается не во всех СУБД (например, в MySQL).
+
+```sql
+SELECT *
+FROM employees
+WHERE name RLIKE '^[A-M]';  -- Имена, начинающиеся с букв A-M
+```
+
+### Примеры использования:
+1. **Фильтрация по зарплате**:
+```sql
+SELECT *
+FROM employees
+WHERE salary >= 60000 AND department_id = 2;
+```
+
+2. **Проверка существования**:
+```sql
+SELECT *
+FROM projects
+WHERE EXISTS (SELECT 1 FROM employees WHERE employees.id = projects.lead_id);
+```
+
+3. **Использование IN**:
+```sql
+SELECT *
+FROM employees
+WHERE department_id IN (1, 4, 5);
+```
+
+4. **Использование ANY**:
+```sql
+SELECT *
+FROM employees
+WHERE salary < ANY (SELECT salary FROM employees WHERE department_id = 2);
+```
+
+5. **Использование ALL**:
+```sql
+SELECT *
+FROM employees
+WHERE salary > ALL (SELECT salary FROM employees WHERE department_id = 3);
+```
+
+6. **Поиск по шаблону**:
+```sql
+SELECT *
+FROM employees
+WHERE name LIKE 'J_n';  -- Имена, такие как 'Jan', 'Jon'
+```
+
+7. **Поиск по регулярному выражению**:
+```sql
+SELECT *
+FROM employees
+WHERE name RLIKE '^J.*';  -- Имена, начинающиеся с 'J'
+```
+
+Эти операторы и конструкции позволяют эффективно фильтровать данные в SQL-запросах.
