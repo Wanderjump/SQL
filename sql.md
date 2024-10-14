@@ -42,19 +42,267 @@ LIMIT 10;
 - **DROP** — удаление объектов из базы данных.
 - **TRUNCATE** — удаление всех записей из таблицы, но не самой таблицы.
 
+Data Definition Language (DDL) — это подмножество SQL, которое используется для определения и изменения структуры базы данных. Вот несколько основных команд DDL с примерами:
+
+### 1. **CREATE**
+Создание новой таблицы.
+
+```sql
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    department_id INT,
+    salary DECIMAL(10, 2),
+    hire_date DATE
+);
+```
+
+### 2. **ALTER**
+Изменение существующей таблицы. Можно добавлять, изменять или удалять столбцы.
+
+- **Добавление столбца**:
+
+```sql
+ALTER TABLE employees
+ADD email VARCHAR(255);
+```
+
+- **Изменение типа данных столбца**:
+
+```sql
+ALTER TABLE employees
+MODIFY salary DECIMAL(12, 2);
+```
+
+- **Удаление столбца**:
+
+```sql
+ALTER TABLE employees
+DROP COLUMN email;
+```
+
+### 3. **DROP**
+Удаление таблицы или другого объекта базы данных.
+
+```sql
+DROP TABLE employees;
+```
+
+### 4. **CREATE INDEX**
+Создание индекса для ускорения поиска.
+
+```sql
+CREATE INDEX idx_department ON employees(department_id);
+```
+
+### 5. **DROP INDEX**
+Удаление индекса.
+
+```sql
+DROP INDEX idx_department ON employees;
+```
+
+### 6. **CREATE VIEW**
+Создание представления, которое представляет собой виртуальную таблицу.
+
+```sql
+CREATE VIEW employee_salaries AS
+SELECT name, salary
+FROM employees
+WHERE salary > 50000;
+```
+
+### 7. **DROP VIEW**
+Удаление представления.
+
+```sql
+DROP VIEW employee_salaries;
+```
+
+### Примеры использования:
+
+1. **Создание таблицы с внешним ключом**:
+
+```sql
+CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+```
+
+2. **Изменение структуры таблицы**:
+
+```sql
+ALTER TABLE employees
+ADD birth_date DATE;
+```
+
+3. **Удаление таблицы**:
+
+```sql
+DROP TABLE departments;
+```
+
+Эти команды DDL позволяют управлять структурой базы данных, создавая, изменяя и удаляя таблицы и другие объекты.
+
 ### 3. DCL (Data Control Language) — Язык управления данными
 Операции, которые управляют доступом к данным:
 - **GRANT** — предоставление прав доступа пользователям.
 - **REVOKE** — отзыв прав доступа у пользователей.
 
+Data Control Language (DCL) — это подмножество SQL, используемое для управления доступом к данным в базе данных. Основные команды DCL включают `GRANT` и `REVOKE`. Вот примеры их использования:
+
+### 1. **GRANT**
+Предоставление прав доступа пользователям или ролям.
+
+#### Пример: Предоставление прав на таблицу
+```sql
+GRANT SELECT, INSERT ON employees TO 'username'@'host';
+```
+В этом примере пользователю `username` предоставляются права на выборку (`SELECT`) и вставку (`INSERT`) данных в таблицу `employees`.
+
+#### Пример: Предоставление всех прав на базу данных
+```sql
+GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'host';
+```
+Это предоставляет пользователю `username` все права на все таблицы в указанной базе данных.
+
+### 2. **REVOKE**
+Отзыв прав доступа у пользователей или ролей.
+
+#### Пример: Отзыв прав на таблицу
+```sql
+REVOKE SELECT, INSERT ON employees FROM 'username'@'host';
+```
+В этом примере у пользователя `username` отзываются права на выборку и вставку данных в таблицу `employees`.
+
+#### Пример: Отзыв всех прав на базу данных
+```sql
+REVOKE ALL PRIVILEGES ON database_name.* FROM 'username'@'host';
+```
+Это отзывается все права у пользователя `username` на все таблицы в указанной базе данных.
+
+### 3. **Создание ролей (если поддерживается)**
+В некоторых СУБД можно создавать роли для удобного управления правами.
+
+#### Пример: Создание роли
+```sql
+CREATE ROLE 'manager_role';
+```
+
+#### Пример: Предоставление прав роли
+```sql
+GRANT SELECT, UPDATE ON employees TO 'manager_role';
+```
+
+#### Пример: Назначение роли пользователю
+```sql
+GRANT 'manager_role' TO 'username'@'host';
+```
+
+### Примеры использования:
+
+1. **Предоставление прав на выполнение хранимой процедуры**:
+```sql
+GRANT EXECUTE ON PROCEDURE procedure_name TO 'username'@'host';
+```
+
+2. **Отзыв прав на создание таблиц**:
+```sql
+REVOKE CREATE ON database_name.* FROM 'username'@'host';
+```
+
+Эти команды DCL позволяют управлять доступом к данным и обеспечивать безопасность в базе данных.
+
 ### 4. TCL (Transaction Control Language) — Язык управления транзакциями
-Операции, которые управляют транзакциями в базе данных:
-- **COMMIT** — подтверждение изменений, сделанных в транзакции.
-- **ROLLBACK** — отмена изменений, сделанных в транзакции.
-- **SAVEPOINT** — установка точки сохранения для возможности отката.
 
-Эти операции помогают управлять данными и структурой баз данных, обеспечивая целостность и безопасность информации.
+Transaction Control Language (TCL) — это подмножество SQL, используемое для управления транзакциями в базе данных. Основные команды TCL включают `COMMIT`, `ROLLBACK` и `SAVEPOINT`. Вот примеры их использования:
 
+### 1. **COMMIT**
+Фиксация изменений, сделанных в текущей транзакции. Все изменения становятся постоянными.
+
+#### Пример:
+```sql
+BEGIN;
+
+INSERT INTO employees (name, department_id, salary)
+VALUES ('John Doe', 1, 60000);
+
+COMMIT;
+```
+В этом примере изменения (добавление нового сотрудника) фиксируются в базе данных.
+
+### 2. **ROLLBACK**
+Отмена всех изменений, сделанных в текущей транзакции. Все изменения, сделанные после последнего `COMMIT`, будут отменены.
+
+#### Пример:
+```sql
+BEGIN;
+
+INSERT INTO employees (name, department_id, salary)
+VALUES ('Jane Smith', 2, 65000);
+
+ROLLBACK;
+```
+В этом случае изменения не будут сохранены, и запись о `Jane Smith` не будет добавлена в таблицу.
+
+### 3. **SAVEPOINT**
+Создание точки сохранения в транзакции, к которой можно вернуться.
+
+#### Пример:
+```sql
+BEGIN;
+
+INSERT INTO employees (name, department_id, salary)
+VALUES ('Alice Johnson', 1, 70000);
+
+SAVEPOINT savepoint1;
+
+INSERT INTO employees (name, department_id, salary)
+VALUES ('Bob Brown', 2, 72000);
+
+ROLLBACK TO savepoint1;  -- Отменяет только вставку Bob Brown
+
+COMMIT;  -- Сохраняет изменения Alice Johnson
+```
+В этом примере изменения, связанные с `Bob Brown`, будут отменены, но `Alice Johnson` останется в базе данных.
+
+### Примеры использования:
+
+1. **Комбинированное использование**:
+```sql
+BEGIN;
+
+UPDATE employees SET salary = salary * 1.1 WHERE department_id = 1;
+
+SAVEPOINT update_department1;
+
+UPDATE employees SET salary = salary * 1.05 WHERE department_id = 2;
+
+ROLLBACK TO update_department1;  -- Отменяет изменения для department_id = 2
+
+COMMIT;  -- Сохраняет изменения для department_id = 1
+```
+
+2. **Обработка ошибок**:
+```sql
+BEGIN;
+
+INSERT INTO employees (name, department_id, salary)
+VALUES ('Charlie Black', 3, 75000);
+
+-- Если возникает ошибка, можно выполнить ROLLBACK
+ROLLBACK;  -- Отменяет все изменения
+```
+
+Эти команды TCL помогают управлять транзакциями, обеспечивая целостность данных и возможность отката изменений в случае ошибок.
 ## 3.  Работа со множествами (UNION, EXCEPT, INTERSECT, IN, NOT IN)
 
 Работа со множествами в SQL позволяет объединять, исключать и пересекать результаты различных запросов. Вот основные операции:
