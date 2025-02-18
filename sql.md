@@ -1,7 +1,7 @@
 # SQL
 ## 1. Общий вид паттерна SQL конструкции, последовательность выполнения шагов запроса.
 
-### Общий вид SQL-запроса можно представить в следующей последовательности:
+Общий вид SQL-запроса можно представить в следующей последовательности:
 
 1. **SELECT** - Определяет, какие столбцы данных нужно выбрать.
 2. **FROM** - Указывает таблицы, из которых будут извлекаться данные.
@@ -12,7 +12,7 @@
 7. **ORDER BY** - Указывает порядок сортировки результатов.
 8. **LIMIT** - Ограничивает количество возвращаемых строк.
 
-### Пример SQL-запроса:
+Пример SQL-запроса:
 ```sql
 SELECT column1, column2
 FROM table1
@@ -28,14 +28,14 @@ LIMIT 10;
 ## 2. Операции DML, DDL, DCL и TCL
 В SQL существует несколько категорий операций, каждая из которых выполняет свои задачи. Вот основные категории:
 
-### 1. DML (Data Manipulation Language) — Язык манипуляции данными
+### 2.1. DML (Data Manipulation Language) — Язык манипуляции данными
 Операции, которые используются для работы с данными в таблицах:
 - **SELECT** — выборка данных.
 - **INSERT** — добавление новых записей.
 - **UPDATE** — обновление существующих записей.
 - **DELETE** — удаление записей.
 
-### 2. DDL (Data Definition Language) — Язык определения данных
+### 2.2. DDL (Data Definition Language) — Язык определения данных
 Операции, которые используются для определения структуры базы данных:
 - **CREATE** — создание новых объектов (таблиц, индексов и т.д.).
 - **ALTER** — изменение структуры существующих объектов.
@@ -44,7 +44,7 @@ LIMIT 10;
 
 Data Definition Language (DDL) — это подмножество SQL, которое используется для определения и изменения структуры базы данных. Вот несколько основных команд DDL с примерами:
 
-### 1. **CREATE**
+#### **CREATE**
 Создание новой таблицы.
 
 ```sql
@@ -57,7 +57,7 @@ CREATE TABLE employees (
 );
 ```
 
-### 2. **ALTER**
+#### **ALTER**
 Изменение существующей таблицы. Можно добавлять, изменять или удалять столбцы.
 
 - **Добавление столбца**:
@@ -81,28 +81,28 @@ ALTER TABLE employees
 DROP COLUMN email;
 ```
 
-### 3. **DROP**
+#### **DROP**
 Удаление таблицы или другого объекта базы данных.
 
 ```sql
 DROP TABLE employees;
 ```
 
-### 4. **CREATE INDEX**
+#### **CREATE INDEX**
 Создание индекса для ускорения поиска.
 
 ```sql
 CREATE INDEX idx_department ON employees(department_id);
 ```
 
-### 5. **DROP INDEX**
+#### **DROP INDEX**
 Удаление индекса.
 
 ```sql
 DROP INDEX idx_department ON employees;
 ```
 
-### 6. **CREATE VIEW**
+#### **CREATE VIEW**
 Создание представления, которое представляет собой виртуальную таблицу.
 
 ```sql
@@ -112,14 +112,14 @@ FROM employees
 WHERE salary > 50000;
 ```
 
-### 7. **DROP VIEW**
+#### **DROP VIEW**
 Удаление представления.
 
 ```sql
 DROP VIEW employee_salaries;
 ```
 
-### Примеры использования:
+#### Примеры использования:
 
 1. **Создание таблицы с внешним ключом**:
 
@@ -159,7 +159,7 @@ DROP TABLE departments;
 
 Data Control Language (DCL) — это подмножество SQL, используемое для управления доступом к данным в базе данных. Основные команды DCL включают `GRANT` и `REVOKE`. Вот примеры их использования:
 
-### 1. **GRANT**
+####  **GRANT**
 Предоставление прав доступа пользователям или ролям.
 
 #### Пример: Предоставление прав на таблицу
@@ -168,13 +168,13 @@ GRANT SELECT, INSERT ON employees TO 'username'@'host';
 ```
 В этом примере пользователю `username` предоставляются права на выборку (`SELECT`) и вставку (`INSERT`) данных в таблицу `employees`.
 
-#### Пример: Предоставление всех прав на базу данных
+Пример: Предоставление всех прав на базу данных
 ```sql
 GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'host';
 ```
 Это предоставляет пользователю `username` все права на все таблицы в указанной базе данных.
 
-### 2. **REVOKE**
+#### **REVOKE**
 Отзыв прав доступа у пользователей или ролей.
 
 #### Пример: Отзыв прав на таблицу
@@ -189,10 +189,10 @@ REVOKE ALL PRIVILEGES ON database_name.* FROM 'username'@'host';
 ```
 Это отзывается все права у пользователя `username` на все таблицы в указанной базе данных.
 
-### 3. **Создание ролей (если поддерживается)**
+#### **Создание ролей (если поддерживается)**
 В некоторых СУБД можно создавать роли для удобного управления правами.
 
-#### Пример: Создание роли
+Пример: Создание роли
 ```sql
 CREATE ROLE 'manager_role';
 ```
@@ -207,7 +207,7 @@ GRANT SELECT, UPDATE ON employees TO 'manager_role';
 GRANT 'manager_role' TO 'username'@'host';
 ```
 
-### Примеры использования:
+Примеры использования:
 
 1. **Предоставление прав на выполнение хранимой процедуры**:
 ```sql
@@ -225,10 +225,10 @@ REVOKE CREATE ON database_name.* FROM 'username'@'host';
 
 Transaction Control Language (TCL) — это подмножество SQL, используемое для управления транзакциями в базе данных. Основные команды TCL включают `COMMIT`, `ROLLBACK` и `SAVEPOINT`. Вот примеры их использования:
 
-### 1. **COMMIT**
+#### **COMMIT**
 Фиксация изменений, сделанных в текущей транзакции. Все изменения становятся постоянными.
 
-#### Пример:
+Пример:
 ```sql
 BEGIN;
 
@@ -239,7 +239,7 @@ COMMIT;
 ```
 В этом примере изменения (добавление нового сотрудника) фиксируются в базе данных.
 
-### 2. **ROLLBACK**
+#### **ROLLBACK**
 Отмена всех изменений, сделанных в текущей транзакции. Все изменения, сделанные после последнего `COMMIT`, будут отменены.
 
 #### Пример:
@@ -253,7 +253,7 @@ ROLLBACK;
 ```
 В этом случае изменения не будут сохранены, и запись о `Jane Smith` не будет добавлена в таблицу.
 
-### 3. **SAVEPOINT**
+#### **SAVEPOINT**
 Создание точки сохранения в транзакции, к которой можно вернуться.
 
 #### Пример:
@@ -274,7 +274,7 @@ COMMIT;  -- Сохраняет изменения Alice Johnson
 ```
 В этом примере изменения, связанные с `Bob Brown`, будут отменены, но `Alice Johnson` останется в базе данных.
 
-### Примеры использования:
+Примеры использования:
 
 1. **Комбинированное использование**:
 ```sql
@@ -307,7 +307,7 @@ ROLLBACK;  -- Отменяет все изменения
 
 Работа со множествами в SQL позволяет объединять, исключать и пересекать результаты различных запросов. Вот основные операции:
 
-### 1. **UNION**
+#### **UNION**
 Объединяет результаты двух или более запросов, удаляя дубликаты. Все запросы должны иметь одинаковое количество столбцов и совместимые типы данных.
 
 ```sql
@@ -316,7 +316,7 @@ UNION
 SELECT column1 FROM table2;
 ```
 
-### 2. **UNION ALL**
+#### **UNION ALL**
 Похож на `UNION`, но не удаляет дубликаты.
 
 ```sql
@@ -325,7 +325,7 @@ UNION ALL
 SELECT column1 FROM table2;
 ```
 
-### 3. **EXCEPT, EXCEPT ALL**
+#### **EXCEPT, EXCEPT ALL**
 Возвращает строки из первого запроса, которые не присутствуют во втором. Доступно не во всех СУБД.
 
 СУБД, поддерживающие EXCEPT:
@@ -358,7 +358,7 @@ SELECT * FROM table2; -- Результат: 1, 2, 5
 
 - EXCEPT ALL: Только PostgreSQL
 
-### 4. **INTERSECT**
+#### **INTERSECT**
 Возвращает строки, которые присутствуют в обоих запросах.
 
 СУБД, поддерживающие INTERSECT:
@@ -376,7 +376,7 @@ INTERSECT
 SELECT column1 FROM table2;
 ```
 
-### 5. **IN**
+#### **IN**
 Используется для проверки, содержится ли значение в наборе значений.
 
 ```sql
@@ -384,7 +384,7 @@ SELECT column1 FROM table1
 WHERE column1 IN (value1, value2, value3);
 ```
 
-### 6. **NOT IN**
+#### **NOT IN**
 Проверяет, не содержится ли значение в наборе значений.
 
 ```sql
@@ -399,7 +399,7 @@ WHERE column1 NOT IN (value1, value2, value3);
 
 Операторы объединения (JOIN) в SQL позволяют комбинировать строки из двух или более таблиц на основе связанных между ними столбцов. Вот основные типы объединений:
 
-### 1. **INNER JOIN**
+#### **INNER JOIN**
 Возвращает строки, которые имеют совпадающие значения в обеих таблицах.
 
 ```sql
@@ -408,7 +408,7 @@ FROM table1
 INNER JOIN table2 ON table1.common_column = table2.common_column;
 ```
 
-### 2. **LEFT JOIN (или LEFT OUTER JOIN)**
+#### **LEFT JOIN (или LEFT OUTER JOIN)**
 Возвращает все строки из левой таблицы и совпадающие строки из правой таблицы. Если совпадений нет, возвращаются NULL для столбцов правой таблицы.
 
 ```sql
@@ -417,7 +417,7 @@ FROM table1
 LEFT JOIN table2 ON table1.common_column = table2.common_column;
 ```
 
-### 3. **RIGHT JOIN (или RIGHT OUTER JOIN)**
+#### **RIGHT JOIN (или RIGHT OUTER JOIN)**
 Возвращает все строки из правой таблицы и совпадающие строки из левой таблицы. Если совпадений нет, возвращаются NULL для столбцов левой таблицы.
 
 ```sql
@@ -426,7 +426,7 @@ FROM table1
 RIGHT JOIN table2 ON table1.common_column = table2.common_column;
 ```
 
-### 4. **FULL JOIN (или FULL OUTER JOIN)**
+#### **FULL JOIN (или FULL OUTER JOIN)**
 Возвращает строки, когда есть совпадения в одной из таблиц. Если совпадений нет, возвращаются NULL для столбцов из отсутствующей таблицы.
 
 ```sql
@@ -435,7 +435,7 @@ FROM table1
 FULL JOIN table2 ON table1.common_column = table2.common_column;
 ```
 
-### 5. **CROSS JOIN**
+#### **CROSS JOIN**
 Возвращает декартово произведение двух таблиц, то есть все возможные комбинации строк.
 
 ```sql
@@ -444,7 +444,7 @@ FROM table1
 CROSS JOIN table2;
 ```
 
-### Примеры использования:
+Примеры использования:
 Предположим, у нас есть две таблицы: `employees` и `departments`.
 
 - **INNER JOIN**: Получить сотрудников и их департаменты.
@@ -485,7 +485,7 @@ FULL JOIN departments ON employees.department_id = departments.id;
 
 Вот обзор работы с фильтрами и базовыми условными операторами в SQL, включая использование операторов `EXISTS`, `IN`, `ANY`, `ALL`, `LIKE` и `RLIKE`.
 
-### 1. **Фильтры с помощью WHERE**
+#### **Фильтры с помощью WHERE**
 Оператор `WHERE` используется для фильтрации строк на основе заданных условий.
 
 ```sql
@@ -494,7 +494,7 @@ FROM table_name
 WHERE condition;
 ```
 
-### 2. **Базовые условные операторы**
+#### **Базовые условные операторы**
 - **=**: Равно
 - **!=** или **<>**: Не равно
 - **>**: Больше
@@ -502,14 +502,14 @@ WHERE condition;
 - **>=**: Больше или равно
 - **<=**: Меньше или равно
 
-### Пример:
+Пример:
 ```sql
 SELECT *
 FROM employees
 WHERE salary > 50000;
 ```
 
-### 3. **Оператор EXISTS**
+#### **Оператор EXISTS**
 Проверяет существование строк в подзапросе. Возвращает TRUE, если подзапрос возвращает хотя бы одну строку.
 
 ```sql
@@ -518,7 +518,7 @@ FROM departments d
 WHERE EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.id);
 ```
 
-### 4. **Оператор IN**
+#### **Оператор IN**
 Проверяет, содержится ли значение в указанном списке значений или в результате подзапроса.
 
 ```sql
@@ -527,7 +527,7 @@ FROM employees
 WHERE department_id IN (1, 2, 3);
 ```
 
-### 5. **Оператор ANY**
+#### **Оператор ANY**
 Сравнивает значение с любым значением в подзапросе. Если хотя бы одно из условий истинно, возвращает TRUE.
 
 ```sql
@@ -536,7 +536,7 @@ FROM employees
 WHERE salary > ANY (SELECT salary FROM employees WHERE department_id = 1);
 ```
 
-### 6. **Оператор ALL**
+#### **Оператор ALL**
 Сравнивает значение со всеми значениями в подзапросе. Возвращает TRUE, если условие истинно для всех значений.
 
 ```sql
@@ -545,7 +545,7 @@ FROM employees
 WHERE salary > ALL (SELECT salary FROM employees WHERE department_id = 1);
 ```
 
-### 7. **Оператор LIKE**
+#### **Оператор LIKE**
 Используется для поиска по шаблону. Символы подстановки:
 - `%`: любое количество символов
 - `_`: один любой символ
@@ -556,7 +556,7 @@ FROM employees
 WHERE name LIKE 'A%';  -- Имена, начинающиеся с 'A'
 ```
 
-### 8. **Оператор RLIKE (или REGEXP)**
+#### **Оператор RLIKE (или REGEXP)**
 Используется для поиска по регулярным выражениям. Поддерживается не во всех СУБД (например, в MySQL).
 
 ```sql
@@ -565,7 +565,7 @@ FROM employees
 WHERE name RLIKE '^[A-M]';  -- Имена, начинающиеся с букв A-M
 ```
 
-### Примеры использования:
+Примеры использования:
 1. **Фильтрация по зарплате**:
 ```sql
 SELECT *
@@ -678,6 +678,75 @@ SUM(net_profit) OVER (ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS com_s
 FROM financial_results;
 ```
 В результате в поле com_sum отобразится сумма профита по месяцам нарастающим итогом.
+### Условные выражения в оконных функциях SQL
+CASE внутри оконной функции
+```sql
+SELECT 
+  employee_id,
+  sales,
+  AVG(CASE WHEN sales > 1000 THEN sales END) 
+    OVER() AS avg_high_sales
+FROM sales_data
+```
+Фильтрация через WHERE
+```sql
+SELECT 
+  employee_id,
+  AVG(sales) FILTER (WHERE sales > 1000) 
+    OVER() AS avg_high_sales
+FROM sales_data
+```
+
+Условное ранжирование
+```sql
+SELECT
+  product,
+  category,
+  RANK() OVER(
+    PARTITION BY category 
+    ORDER BY CASE WHEN discount > 0 THEN price END DESC
+  ) AS discounted_rank
+FROM products
+```
+
+Накопительный итог с условием
+```sql
+SELECT
+  order_date,
+  amount,
+  SUM(CASE WHEN status = 'completed' THEN amount ELSE 0 END) 
+    OVER(ORDER BY order_date) AS running_total
+FROM orders
+```
+
+Комбинация с COALESCE
+```sql
+SELECT
+  user_id,
+  COALESCE(
+    SUM(login_count) FILTER (WHERE YEAR(login_date) = 2024) 
+      OVER(PARTITION BY user_id),
+    0
+  ) AS current_year_logins
+FROM user_activity
+```
+
+Условные окна
+```sql
+SELECT
+  employee_id,
+  department,
+  salary,
+  AVG(salary) OVER(
+    PARTITION BY department
+    ORDER BY hire_date
+    ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+    EXCLUDE CURRENT ROW
+  ) AS dynamic_avg
+FROM employees
+WHERE termination_date IS NULL
+```
+
 
 ## Представления VIEW
 Ситнтаксис создания представления
@@ -686,4 +755,21 @@ CREATE [OR REPLACE] VIEW view_name AS
   SELECT columns
   FROM table
   [WHERE condition];
+```
+
+## Операции работы с CTE (Common Table Expressions)
+
+```sql
+WITH raw_set1 AS (
+    SELECT ... FROM table1),
+    raw_set2 AS (
+    SELECT ... FROM table2),
+    combined_set AS (
+    SELECT ... FROM raw_set1 JOIN raw_set2 ON ...)
+     
+SELECT 
+...
+FROM 
+    combined_set 
+    LEFT JOIN table3 ON ...;
 ```
